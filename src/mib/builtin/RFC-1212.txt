@@ -1,0 +1,45 @@
+RFC-1212 DEFINITIONS ::= BEGIN
+
+-- Minimal stub of RFC 1212 (Concise MIB Definitions). The RFC defines
+-- only the SMIv1 OBJECT-TYPE macro; it exists here so that modules
+-- importing OBJECT-TYPE FROM RFC-1212 (e.g. RFC1213-MIB) resolve.
+
+IMPORTS
+    ObjectName
+        FROM RFC1155-SMI;
+
+OBJECT-TYPE MACRO ::=
+BEGIN
+    TYPE NOTATION ::=
+                      "SYNTAX" type(TYPE ObjectSyntax)
+                      "ACCESS" Access
+                      "STATUS" Status
+                      DescrPart
+                      ReferPart
+                      IndexPart
+                      DefValPart
+    VALUE NOTATION ::= value (VALUE ObjectName)
+
+    Access ::= "read-only"
+             | "read-write"
+             | "write-only"
+             | "not-accessible"
+    Status ::= "mandatory"
+             | "optional"
+             | "obsolete"
+             | "deprecated"
+
+    DescrPart ::= "DESCRIPTION" value (description DisplayString)
+                | empty
+    ReferPart ::= "REFERENCE" value (reference DisplayString)
+                | empty
+    IndexPart ::= "INDEX" "{" IndexTypes "}"
+                | empty
+    IndexTypes ::= IndexType | IndexTypes "," IndexType
+    IndexType ::= value (indexobject ObjectName)
+                | type (indextype)
+    DefValPart ::= "DEFVAL" "{" value (defvalue ObjectSyntax) "}"
+                 | empty
+END
+
+END
